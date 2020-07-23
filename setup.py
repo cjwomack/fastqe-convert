@@ -12,14 +12,14 @@ and is an ideal starting place for new projects.'''
 
 
 setup(
-    name='fastqe-convert',
+    name='fastqe_convert',
     version='0.1.0.0',
     author='FASTQE-CONVERT_AUTHOR',
     author_email='FASTQE-CONVERT_EMAIL',
-    packages=['fastqe-convert'],
-    package_dir={'fastqe-convert': 'fastqe-convert'},
+    packages=['fastqe_convert'],
+    package_dir={'fastqe_convert': 'fastqe_convert'},
     entry_points={
-        'console_scripts': ['fastqe-convert = fastqe-convert.fastqe-convert:main']
+        'console_scripts': ['fastqe_convert = fastqe_convert.fastqe_convert:main']
     },
     url='https://github.com/cjwomack/fastqe-convert',
     license='LICENSE',
