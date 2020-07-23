@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
 
 LONG_DESCRIPTION = \
 '''The program reads one or more input FASTA files.
