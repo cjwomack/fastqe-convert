@@ -272,8 +272,6 @@ def init_logging(log_filename):
 def main():
     "Orchestrate the execution of the program"
     options = parse_args()
-    if options.dna and options.protein:
-        exit_with_error("file can either be dna or protein not both",2)
     init_logging(options.log)
     options.func(options)
 
