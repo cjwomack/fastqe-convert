@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': ['fastqe-convert = fastqe-convert.fastqe-convert:main']
     },
-    url='https://github.com/GITHUB_USERNAME/fastqe-convert',
+    url='https://github.com/cjwomack/fastqe-convert',
     license='LICENSE',
     description=('A prototypical bioinformatics command line tool'),
     long_description=(LONG_DESCRIPTION),
