@@ -61,14 +61,15 @@ def parse_args():
                         metavar='LOG_FILE',
                         type=str,
                         help='record program progress in LOG_FILE')
-    parser.add_argument('--dna',
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--dna',
                         default=True,
                         action='store_true',
                         help='show dna mapping')
-    parser.add_argument('--protein',
+    group.add_argument('--protein',
                         action='store_true',
                         help='show protein mapping')
-    parser.add_argument('--custom',
+    group.add_argument('--custom',
                         metavar='CUSTOM_DICT',
                         type=str,
                         help='use a mapping of custom emoji to quality in CUSTOM_DICT ('+emojify(":snake:")+emojify(":palm_tree:")+')')
