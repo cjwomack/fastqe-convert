@@ -16,6 +16,7 @@ import logging
 import pkg_resources
 from Bio import SeqIO
 from fastqe import fastqe_map as emaps
+from . import fastqe_convert_map as emaps_c
 from pyemojify import emojify 
 
 EXIT_FILE_IO_ERROR = 1
@@ -60,6 +61,18 @@ def parse_args():
                         metavar='LOG_FILE',
                         type=str,
                         help='record program progress in LOG_FILE')
+    parser.add_argument('--dna',
+                        default=True,
+                        action='store_true',
+                        help='show dna mapping')
+    parser.add_argument('--protein',
+                        action='store_true',
+                        help='show protein mapping')
+    parser.add_argument('--custom',
+                        metavar='CUSTOM_DICT',
+                        type=str,
+                        help='use a mapping of custom emoji to quality in CUSTOM_DICT ('+emojify(":snake:")+emojify(":palm_tree:")+')')
+    
     subparsers = parser.add_subparsers(help='sub-command help')
     
     # FASTA processing
@@ -199,21 +212,36 @@ def convert_fasta(options):
                 exit_with_error(str(exception), EXIT_FILE_IO_ERROR)
             else:
                 with fasta_file:
-                    #stats = FastaStats().from_file(fasta_file, options.minlen)
-                    for seq in SeqIO.parse(fasta_file, "fasta"):
-                        print(">"+seq.id)
-                        original = seq.seq
-                        bioemojify = " ".join([emojify(emaps.seq_emoji_map.get(s,":heart_eyes:")) for s in original])
-                        print(bioemojify)
+                    if options.dna:
+                        #stats = FastaStats().from_file(fasta_file, options.minlen)
+                        for seq in SeqIO.parse(fasta_file, "fasta"):
+                            print(">"+seq.id)
+                            original = seq.seq
+                            bioemojify = " ".join([emojify(emaps.seq_emoji_map.get(s,":heart_eyes:")) for s in original])
+                            print(bioemojify)
+                    elif options.protein:
+                        #stats = FastaStats().from_file(fasta_file, options.minlen)
+                        for seq in SeqIO.parse(fasta_file, "fasta"):
+                            print(">"+seq.id)
+                            original = seq.seq
+                            bioemojify = " ".join([emojify(emaps_c.prot_seq_emoji_map.get(s,":heart_eyes:")) for s in original])
+                            print(bioemojify)
     else:
         logging.info("Processing FASTA file from stdin")
         #stats = FastaStats().from_file(sys.stdin, options.minlen)
         print("stdin")
-        for seq in SeqIO.parse(sys.stdin, "fasta"):
-                         print(">"+seq.id)
-                         original = seq.seq
-                         bioemojify = " ".join([emojify(emaps.seq_emoji_map.get(s,":heart_eyes:")) for s in original])
-                         print(bioemojify)
+        if options.dna:
+            for seq in SeqIO.parse(sys.stdin, "fasta"):
+                             print(">"+seq.id)
+                             original = seq.seq
+                             bioemojify = " ".join([emojify(emaps.seq_emoji_map.get(s,":heart_eyes:")) for s in original])
+                             print(bioemojify)
+        elif options.protein:
+            for seq in SeqIO.parse(sys.stdin, "fasta"):
+                             print(">"+seq.id)
+                             original = seq.seq
+                             bioemojify = " ".join([emojify(emaps_c.prot_seq_emoji_map.get(s,":heart_eyes:")) for s in original])
+                             print(bioemojify)
 
 
 
@@ -243,6 +271,8 @@ def init_logging(log_filename):
 def main():
     "Orchestrate the execution of the program"
     options = parse_args()
+    if options.dna and options.protein:
+        exit_with_error("file can either be dna or protein not both",2)
     init_logging(options.log)
     options.func(options)
 
