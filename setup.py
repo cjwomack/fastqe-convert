@@ -25,5 +25,6 @@ setup(
     license='LICENSE',
     description=('A prototypical bioinformatics command line tool'),
     long_description=(LONG_DESCRIPTION),
-    install_requires=["biopython"],
+    install_requires=["fastqe","biopython>=1.66",'pyemojify'],
+    
 )
